@@ -3,6 +3,7 @@
 
 const kill = require("./");
 const args = require("get-them-args")(process.argv.slice(2));
+const utils = require("./utils");
 
 const verbose = args.verbose || false;
 let ports = [];
@@ -22,7 +23,7 @@ if (args.range) {
 		ports = [ports];
 	}
 }
-if (ports.length === 0 || ports.includes("") || areNotNumbers(ports)) {
+if (ports.length === 0 || ports.includes("") || utils.areNotNumbers(ports)) {
 	console.log(
 		`Please specify ports to kill.\nExample usage: kill-port 8001,8002 or kill-port --range 8001,8009`
 	);
@@ -48,9 +49,3 @@ Promise.all(
 			});
 	})
 );
-
-function areNotNumbers(ports) {
-	return ports.every((port) => {
-		return isNaN(port);
-	});
-}
